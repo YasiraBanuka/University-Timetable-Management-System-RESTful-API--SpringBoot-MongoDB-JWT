@@ -34,7 +34,8 @@ public class SecurityConfiguration {
                                         "/api/auth/**",
                                         "/api/course/**",
                                         "/api/enrollment/**",
-                                        "/api/booking/**"
+                                        "/api/booking/**",
+                                        "/api/timetable/**"
                                 )
                                 .permitAll()
                                 .anyRequest()

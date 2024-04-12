@@ -27,8 +27,8 @@ public class TimetableService {
 
         // Fetch course details from the repository using the provided course ID
         Course course = courseRepository.findById(timetableDto.getCourseId())
-                .orElseThrow(() -> new ResourceNotFoundException("Course not found with id: " + timetableDto.getCourseId()));
-        // Set course to the timetable
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Course not found with id: " + timetableDto.getCourseId()));
         timetable.setCourse(course);
 
         // Fetch location details from the repository using the provided location ID
@@ -37,7 +37,6 @@ public class TimetableService {
 
         // Check if the location is available
         if (location.getAvailability().equals("AVAILABLE")) {
-            // Set location to the timetable
             timetable.setLocation(location);
             // Set location availability to BOOKED
             location.setAvailability("BOOKED");
@@ -48,6 +47,8 @@ public class TimetableService {
 
         // Save the timetable
         Timetable savedTimetable = timetableRepository.save(timetable);
+
+        System.out.println("Timetable saved: " + savedTimetable);
 
         // Map the saved timetable to TimetableDto
         return TimetableMapper.mapToTimetableDto(savedTimetable);
@@ -92,6 +93,8 @@ public class TimetableService {
         // Save the updated timetable
         Timetable updatedTimetable = timetableRepository.save(existingTimetable);
 
+        System.out.println("Timetable updated: " + updatedTimetable);
+
         // Map the updated timetable to TimetableDto
         return TimetableMapper.mapToTimetableDto(updatedTimetable);
     }
@@ -111,6 +114,7 @@ public class TimetableService {
 
         // Delete the timetable
         timetableRepository.delete(timetable);
+        System.out.println("Timetable deleted");
     }
 
 }
