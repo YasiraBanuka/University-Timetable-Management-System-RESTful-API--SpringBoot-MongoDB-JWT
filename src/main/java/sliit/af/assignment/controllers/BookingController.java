@@ -3,6 +3,7 @@ package sliit.af.assignment.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import sliit.af.assignment.dtos.BookingDto;
 import sliit.af.assignment.services.BookingService;
@@ -18,6 +19,7 @@ public class BookingController {
 
     @PostMapping("/book")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<BookingDto> bookResource(@RequestBody BookingDto bookingDto) {
         BookingDto savedBooking = bookingService.bookResource(bookingDto);
         return new ResponseEntity<>(savedBooking, HttpStatus.CREATED);
@@ -25,6 +27,7 @@ public class BookingController {
 
     @GetMapping("/get")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<BookingDto>> getAllBookings() {
         List<BookingDto> bookings = bookingService.getAllBookings();
         return ResponseEntity.ok(bookings);
@@ -32,6 +35,7 @@ public class BookingController {
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> deleteBooking(@PathVariable("id") String bookingId) {
         bookingService.deleteBooking(bookingId);
         return ResponseEntity.ok("Booking deleted successfully");
