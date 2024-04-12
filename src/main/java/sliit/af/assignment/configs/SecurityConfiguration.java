@@ -33,11 +33,12 @@ public class SecurityConfiguration {
                         request -> request.requestMatchers(
                                         "/api/auth/**",
                                         "/api/course/**",
-                                        "/api/enrollment/**"
-                                ).permitAll()
-//                        .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
-//                        .requestMatchers("/user/**").hasAnyAuthority("USER")
-                                .anyRequest().authenticated()
+                                        "/api/enrollment/**",
+                                        "/api/booking/**"
+                                )
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
