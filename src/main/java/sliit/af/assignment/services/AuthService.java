@@ -1,6 +1,6 @@
 package sliit.af.assignment.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,21 +14,24 @@ import sliit.af.assignment.utils.JwtUtils;
 import java.util.HashMap;
 
 @Service
+@AllArgsConstructor
 public class AuthService {
 
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private JwtUtils jwtUtils;
-    @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     public SignUpResponseDto signUp(UserAuthDto signUpRequest) {
         SignUpResponseDto request = new SignUpResponseDto();
 
         try {
+            if (!areCredentialsValid(signUpRequest.getEmail(), signUpRequest.getPassword())) {
+                request.setError("Invalid email or password!");
+                System.out.println("Invalid email or password!");
+                return request;
+            }
+
             User user = new User();
             user.setName(signUpRequest.getName());
             user.setEmail(signUpRequest.getEmail());
@@ -36,17 +39,14 @@ public class AuthService {
             user.setRole(signUpRequest.getRole());
             User savedUser = userRepository.save(user);
 
-            if (savedUser != null) {
-                request.setId(savedUser.getId());
-                request.setName(savedUser.getName());
-                request.setEmail(savedUser.getEmail());
-                request.setPassword(savedUser.getPassword());
-                request.setRole(savedUser.getRole());
-                request.setMessage(user.getRole() + " registered successfully!");
-                System.out.println(user.getRole() + " registered successfully!");
-            } else {
-                System.out.println("User registration failed!");
-            }
+            request.setId(savedUser.getId());
+            request.setName(savedUser.getName());
+            request.setEmail(savedUser.getEmail());
+            request.setPassword(savedUser.getPassword());
+            request.setRole(savedUser.getRole());
+            request.setMessage(user.getRole() + " registered successfully!");
+            System.out.println(user.getRole() + " registered successfully!");
+
         } catch (Exception e) {
             request.setError(e.getMessage());
             System.out.println(e.getMessage());
@@ -101,6 +101,15 @@ public class AuthService {
         }
 
         return response;
+    }
+
+    public boolean areCredentialsValid(String email, String password) {
+        // check if the password is not null and contains at least 6 characters
+        boolean isPasswordValid = password != null && password.length() >= 6;
+        // check if the email is in a valid format
+        boolean isEmailValid = email != null && email.contains("@") && email.contains(".");
+
+        return isPasswordValid && isEmailValid;
     }
 
 }
