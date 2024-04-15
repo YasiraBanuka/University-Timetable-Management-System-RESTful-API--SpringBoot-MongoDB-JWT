@@ -8,6 +8,8 @@ import sliit.af.assignment.entities.Resource;
 
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class BookingMapperTest {
 
     private BookingMapper bookingMapper;

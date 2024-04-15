@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import sliit.af.assignment.dtos.CourseDto;
 import sliit.af.assignment.entities.Course;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class CourseMapperTest {
 
     private CourseMapper courseMapper;
