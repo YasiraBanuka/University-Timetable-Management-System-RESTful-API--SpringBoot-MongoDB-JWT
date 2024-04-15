@@ -8,13 +8,14 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import sliit.af.assignment.dtos.CourseDto;
 import sliit.af.assignment.entities.Course;
+import sliit.af.assignment.exceptions.ResourceNotFoundException;
 import sliit.af.assignment.repositories.CourseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CourseServiceTest {
@@ -122,6 +123,106 @@ class CourseServiceTest {
         assertEquals(course.getCredits(), courseDto.getCredits());
 
         verify(courseRepository, times(1)).findById(courseId);
+    }
+
+    @Test
+    public void should_throw_exception_when_course_not_found() {
+        // Given
+        String courseId = "1L";
+
+        // Mock the calls
+        when(courseRepository.findById(courseId)).thenReturn(Optional.empty());
+
+        // Then
+        assertThrows(ResourceNotFoundException.class, () -> courseService.getCourseById(courseId));
+    }
+
+    @Test
+    public void should_update_existing_course() {
+        // Given
+        String courseId = "1L";
+        CourseDto courseDto = CourseDto.builder()
+                .id("1L")
+                .name("Software Engineering")
+                .code("SE")
+                .description("Software Engineering Course")
+                .credits(4)
+                .faculty("Computing")
+                .build();
+        Course course = Course.builder()
+                .id("1L")
+                .name("Software Engineering")
+                .code("SE")
+                .description("Software Engineering Course")
+                .credits(4)
+                .faculty("Computing")
+                .build();
+
+        // Mock the calls
+        when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
+        when(courseRepository.save(course)).thenReturn(course);
+
+        // When
+        CourseDto updatedCourse = courseService.updateCourse(courseId, courseDto);
+
+        // Then
+        assertEquals(courseDto.getId(), updatedCourse.getId());
+        assertEquals(courseDto.getName(), updatedCourse.getName());
+        assertEquals(courseDto.getCode(), updatedCourse.getCode());
+        assertEquals(courseDto.getDescription(), updatedCourse.getDescription());
+        assertEquals(courseDto.getCredits(), updatedCourse.getCredits());
+
+        verify(courseRepository, times(1)).findById(courseId);
+        verify(courseRepository, times(1)).save(course);
+    }
+
+    @Test
+    public void should_throw_exception_when_deleting_non_existing_course() {
+        // Given
+        String courseId = "1L";
+
+        // Mock the calls
+        when(courseRepository.findById(courseId)).thenReturn(Optional.empty());
+
+        // Then
+        assertThrows(ResourceNotFoundException.class, () -> courseService.deleteCourse(courseId));
+    }
+
+    @Test
+    public void should_throw_exception_when_updating_non_existing_course() {
+        // Given
+        String courseId = "1L";
+        CourseDto courseDto = CourseDto.builder()
+                .id("1L")
+                .name("Software Engineering")
+                .code("SE")
+                .description("Software Engineering Course")
+                .credits(4)
+                .faculty("Computing")
+                .build();
+
+        // Mock the calls
+        when(courseRepository.findById(courseId)).thenReturn(Optional.empty());
+
+        // Then
+        assertThrows(ResourceNotFoundException.class, () -> courseService.updateCourse(courseId, courseDto));
+    }
+
+    @Test
+    public void should_return_empty_list_when_no_courses() {
+        // Given
+        List<Course> courses = new ArrayList<>();
+
+        // Mock the calls
+        when(courseRepository.findAll()).thenReturn(courses);
+
+        // When
+        List<CourseDto> courseDtos = courseService.getAllCourses();
+
+        // Then
+        assertTrue(courseDtos.isEmpty());
+
+        verify(courseRepository, times(1)).findAll();
     }
 
 }
