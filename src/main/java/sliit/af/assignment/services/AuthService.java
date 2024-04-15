@@ -26,9 +26,14 @@ public class AuthService {
         SignUpResponseDto request = new SignUpResponseDto();
 
         try {
-            if (!areCredentialsValid(signUpRequest.getEmail(), signUpRequest.getPassword())) {
-                request.setError("Invalid email or password!");
-                System.out.println("Invalid email or password!");
+            if (!isEmailValid(signUpRequest.getEmail())) {
+                request.setError("Invalid email format!");
+                System.out.println("Invalid email format!");
+                return request;
+            }
+            if (!isPasswordValid(signUpRequest.getPassword())) {
+                request.setError("Invalid password. It must contain at least 6 characters!");
+                System.out.println("Invalid password. It must contain at least 6 characters!");
                 return request;
             }
 
@@ -103,13 +108,15 @@ public class AuthService {
         return response;
     }
 
-    public boolean areCredentialsValid(String email, String password) {
-        // check if the password is not null and contains at least 6 characters
-        boolean isPasswordValid = password != null && password.length() >= 6;
-        // check if the email is in a valid format
-        boolean isEmailValid = email != null && email.contains("@") && email.contains(".");
+    // check if the email is in a valid format
+    public boolean isEmailValid(String email) {
+        String emailRegex = "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$";
+        return email.matches(emailRegex);
+    }
 
-        return isPasswordValid && isEmailValid;
+    // check if the password is not null and contains at least 6 characters
+    public boolean isPasswordValid(String password) {
+        return password != null && password.length() >= 6;
     }
 
 }
