@@ -23,6 +23,7 @@ public class EnrollmentService {
     private EnrollmentRepository enrollmentRepository;
     private UserRepository userRepository;
     private CourseRepository courseRepository;
+    private MailService mailService;
 
     public EnrollmentDto enrollCourse(EnrollmentDto enrollmentDto) {
         User student = userRepository.findById(enrollmentDto.getStudentId()).orElseThrow(
@@ -46,6 +47,14 @@ public class EnrollmentService {
                         .course(course)
                         .build();
                 enrollmentRepository.save(enrollment);
+
+                // Send email after successful enrollment
+                try {
+                    mailService.sendMail(student.getEmail(), "Enrollment Successful", "Dear " + student.getName() + ", you have successfully enrolled in the course " + course.getName() + "!");
+                } catch (Exception e) {
+                    System.out.println("Failed to send email: " + e.getMessage());
+                }
+
                 return EnrollmentMapper.mapToEnrollmentDto(enrollment);
             } else {
                 throw new ResourceNotFoundException("User role not allowed to enroll to a course");
