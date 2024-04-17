@@ -21,6 +21,7 @@ public class AuthService {
     private JwtUtils jwtUtils;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
+    private MailService mailService;
 
     public SignUpResponseDto signUp(UserAuthDto signUpRequest) {
         SignUpResponseDto request = new SignUpResponseDto();
@@ -43,6 +44,8 @@ public class AuthService {
             user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
             user.setRole(signUpRequest.getRole());
             User savedUser = userRepository.save(user);
+
+            mailService.sendMail(user.getEmail(), "Registration Successful", "Welcome " + user.getName() + ", you have successfully registered!");
 
             request.setId(savedUser.getId());
             request.setName(savedUser.getName());
