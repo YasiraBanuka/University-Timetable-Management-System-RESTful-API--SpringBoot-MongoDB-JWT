@@ -2,6 +2,7 @@ package sliit.af.assignment.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import sliit.af.assignment.configs.MailServiceConfig;
 import sliit.af.assignment.dtos.EnrollmentDto;
 import sliit.af.assignment.entities.Course;
 import sliit.af.assignment.entities.Enrollment;
@@ -23,7 +24,7 @@ public class EnrollmentService {
     private EnrollmentRepository enrollmentRepository;
     private UserRepository userRepository;
     private CourseRepository courseRepository;
-    private MailService mailService;
+    private MailServiceConfig mailServiceConfig;
 
     public EnrollmentDto enrollCourse(EnrollmentDto enrollmentDto) {
         User student = userRepository.findById(enrollmentDto.getStudentId()).orElseThrow(
@@ -50,7 +51,7 @@ public class EnrollmentService {
 
                 // Send email after successful enrollment
                 try {
-                    mailService.sendMail(student.getEmail(), "Enrollment Successful", "Dear " + student.getName() + ", you have successfully enrolled in the course " + course.getName() + "!");
+                    mailServiceConfig.sendMail(student.getEmail(), "Enrollment Successful", "Dear " + student.getName() + ", you have successfully enrolled in the course " + course.getName() + "!");
                 } catch (Exception e) {
                     System.out.println("Failed to send email: " + e.getMessage());
                 }

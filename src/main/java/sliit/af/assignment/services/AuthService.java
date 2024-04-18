@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import sliit.af.assignment.configs.MailServiceConfig;
 import sliit.af.assignment.dtos.SignUpResponseDto;
 import sliit.af.assignment.dtos.UserAuthDto;
 import sliit.af.assignment.entities.User;
@@ -21,7 +22,7 @@ public class AuthService {
     private JwtUtils jwtUtils;
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
-    private MailService mailService;
+    private MailServiceConfig mailServiceConfig;
 
     public SignUpResponseDto signUp(UserAuthDto signUpRequest) {
         SignUpResponseDto request = new SignUpResponseDto();
@@ -45,7 +46,7 @@ public class AuthService {
             user.setRole(signUpRequest.getRole());
             User savedUser = userRepository.save(user);
 
-            mailService.sendMail(user.getEmail(), "Registration Successful", "Welcome " + user.getName() + ", you have successfully registered!");
+            mailServiceConfig.sendMail(user.getEmail(), "Registration Successful", "Welcome " + user.getName() + ", you have successfully registered!");
 
             request.setId(savedUser.getId());
             request.setName(savedUser.getName());

@@ -1,4 +1,4 @@
-package sliit.af.assignment.services;
+package sliit.af.assignment.configs;
 
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class MailService {
+public class MailServiceConfig {
 
     private final JavaMailSender javaMailSender;
 
