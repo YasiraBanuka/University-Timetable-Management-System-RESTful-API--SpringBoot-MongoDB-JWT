@@ -30,13 +30,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        request -> request.requestMatchers(
-                                        "/api/auth/**",
-                                        "/api/course/**",
-                                        "/api/enrollment/**",
-//                                        "/api/booking/**",
-                                        "/api/timetable/**"
-                                )
+                        request -> request.requestMatchers("/api/auth/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
