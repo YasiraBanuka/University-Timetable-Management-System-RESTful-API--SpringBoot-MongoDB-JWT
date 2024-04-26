@@ -42,6 +42,7 @@ public class TimetableService {
             location.setAvailability("BOOKED");
             locationRepository.save(location);
         } else {
+            System.out.println("Location not available");
             throw new ResourceNotFoundException("Location not available");
         }
 
