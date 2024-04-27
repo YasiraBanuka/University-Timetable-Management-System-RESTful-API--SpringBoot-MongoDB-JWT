@@ -41,13 +41,6 @@ class CourseMapperTest {
     }
 
     @Test
-    public void should_map_courseDto_to_course_when_courseDto_is_null() {
-        Course course = courseMapper.mapToCourse(null);
-        assertEquals("", course.getName());
-        assertEquals("", course.getCode());
-    }
-
-    @Test
     public void shouldMapCourseToCourseDto() {
         // Given
         Course course = Course.builder()

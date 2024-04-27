@@ -6,7 +6,9 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import sliit.af.assignment.configs.MailServiceConfig;
 import sliit.af.assignment.dtos.SignUpResponseDto;
 import sliit.af.assignment.dtos.UserAuthDto;
 import sliit.af.assignment.entities.User;
@@ -28,6 +30,10 @@ public class AuthServiceTest {
     private JwtUtils jwtUtils;
     @Mock
     private PasswordEncoder passwordEncoder;
+    @Mock
+    private AuthenticationManager authenticationManager;
+    @Mock
+    private MailServiceConfig mailServiceConfig;
 
     @InjectMocks
     private AuthService authService;
