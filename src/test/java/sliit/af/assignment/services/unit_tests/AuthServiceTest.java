@@ -1,4 +1,4 @@
-package sliit.af.assignment.services;
+package sliit.af.assignment.services.unit_tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import sliit.af.assignment.dtos.SignUpResponseDto;
 import sliit.af.assignment.dtos.UserAuthDto;
 import sliit.af.assignment.entities.User;
 import sliit.af.assignment.repositories.UserRepository;
+import sliit.af.assignment.services.AuthService;
 import sliit.af.assignment.utils.JwtUtils;
 
 import java.util.Optional;

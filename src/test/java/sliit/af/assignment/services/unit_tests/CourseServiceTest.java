@@ -1,4 +1,4 @@
-package sliit.af.assignment.services;
+package sliit.af.assignment.services.unit_tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import sliit.af.assignment.dtos.CourseDto;
 import sliit.af.assignment.entities.Course;
 import sliit.af.assignment.exceptions.ResourceNotFoundException;
 import sliit.af.assignment.repositories.CourseRepository;
+import sliit.af.assignment.services.CourseService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package sliit.af.assignment.services;
+package sliit.af.assignment.services.unit_tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +12,7 @@ import sliit.af.assignment.entities.Timetable;
 import sliit.af.assignment.repositories.CourseRepository;
 import sliit.af.assignment.repositories.LocationRepository;
 import sliit.af.assignment.repositories.TimetableRepository;
+import sliit.af.assignment.services.TimetableService;
 
 import java.util.Optional;
 

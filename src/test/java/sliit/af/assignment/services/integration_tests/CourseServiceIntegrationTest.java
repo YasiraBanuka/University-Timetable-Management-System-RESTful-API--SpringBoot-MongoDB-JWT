@@ -1,4 +1,4 @@
-package sliit.af.assignment.services;
+package sliit.af.assignment.services.integration_tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,6 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import sliit.af.assignment.dtos.CourseDto;
 import sliit.af.assignment.entities.Course;
 import sliit.af.assignment.repositories.CourseRepository;
+import sliit.af.assignment.services.CourseService;
 
 import java.util.Arrays;
 import java.util.List;
